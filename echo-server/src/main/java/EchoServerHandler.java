@@ -10,15 +10,20 @@ import io.netty.util.CharsetUtil;
 
 import java.util.Date;
 
-@ChannelHandler.Sharable
+
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
+
+    private int counter=0;
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf in = (ByteBuf) msg;
         byte[] req = new byte[in.readableBytes()];
         in.readBytes(req);
-        String body = new String(req,"UTF-8");
-        System.out.println("Server received:" + body);
+        String body = new String(req,"UTF-8")
+                .substring(0,req.length-System.getProperty("line.separator").length());
+        counter++;
+        System.out.println("Server received:" + body + "; the counter is :"+ counter);
         String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body)?
                 new Date(System.currentTimeMillis()).toString()
                 :"BAD ORDER";

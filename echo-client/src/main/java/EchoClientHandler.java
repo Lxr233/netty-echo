@@ -5,19 +5,25 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
-@ChannelHandler.Sharable
+
 public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
+    private int counter = 0;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("QUERY TIME ORDER",
-                CharsetUtil.UTF_8));
+        String req = "QUERY TIME ORDER"+System.getProperty("line.separator");
+        for(int i=0;i<100;i++){
+            ctx.writeAndFlush(Unpooled.copiedBuffer(req,
+                    CharsetUtil.UTF_8));
+        }
+
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf in) throws Exception {
-        System.out.print("Client received: " +
-                in.toString(CharsetUtil.UTF_8));
+        System.out.print("Now is: " +
+                in.toString(CharsetUtil.UTF_8) +
+                "; the counter is: " + ++counter);
     }
 
     @Override
