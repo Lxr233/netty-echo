@@ -17,16 +17,13 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf in = (ByteBuf) msg;
-        byte[] req = new byte[in.readableBytes()];
-        in.readBytes(req);
-        String body = new String(req,"UTF-8")
-                .substring(0,req.length-System.getProperty("line.separator").length());
+        String body = (String)msg;
         counter++;
         System.out.println("Server received:" + body + "; the counter is :"+ counter);
         String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body)?
                 new Date(System.currentTimeMillis()).toString()
                 :"BAD ORDER";
+        currentTime = currentTime + System.getProperty("line.separator");
         ByteBuf rsp = Unpooled.copiedBuffer(currentTime.getBytes());
         ctx.write(rsp);
     }

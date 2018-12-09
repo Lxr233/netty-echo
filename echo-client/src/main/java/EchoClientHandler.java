@@ -6,7 +6,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
 
-public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class EchoClientHandler extends SimpleChannelInboundHandler<String> {
 
     private int counter = 0;
     @Override
@@ -20,9 +20,9 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf in) throws Exception {
-        System.out.print("Now is: " +
-                in.toString(CharsetUtil.UTF_8) +
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String in) throws Exception {
+        System.out.println("Now is: " +
+                in +
                 "; the counter is: " + ++counter);
     }
 
