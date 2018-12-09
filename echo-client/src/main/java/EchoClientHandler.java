@@ -10,7 +10,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!",
+        ctx.writeAndFlush(Unpooled.copiedBuffer("QUERY TIME ORDER",
                 CharsetUtil.UTF_8));
     }
 

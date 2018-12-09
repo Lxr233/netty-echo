@@ -8,13 +8,22 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 
+import java.util.Date;
+
 @ChannelHandler.Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf in = (ByteBuf) msg;
-        System.out.println("Server received:" + in.toString(CharsetUtil.UTF_8));
-        ctx.write(in);
+        byte[] req = new byte[in.readableBytes()];
+        in.readBytes(req);
+        String body = new String(req,"UTF-8");
+        System.out.println("Server received:" + body);
+        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body)?
+                new Date(System.currentTimeMillis()).toString()
+                :"BAD ORDER";
+        ByteBuf rsp = Unpooled.copiedBuffer(currentTime.getBytes());
+        ctx.write(rsp);
     }
 
     @Override
