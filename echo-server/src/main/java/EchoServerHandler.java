@@ -10,7 +10,7 @@ import io.netty.util.CharsetUtil;
 
 import java.util.Date;
 
-
+@ChannelHandler.Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     private int counter=0;
@@ -23,7 +23,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body)?
                 new Date(System.currentTimeMillis()).toString()
                 :"BAD ORDER";
-        currentTime = currentTime + System.getProperty("line.separator");
+        currentTime = currentTime + "$_";
         ByteBuf rsp = Unpooled.copiedBuffer(currentTime.getBytes());
         ctx.write(rsp);
     }

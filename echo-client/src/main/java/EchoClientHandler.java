@@ -11,7 +11,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<String> {
     private int counter = 0;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        String req = "QUERY TIME ORDER"+System.getProperty("line.separator");
+        String req = "QUERY TIME ORDER"+"$_";
         for(int i=0;i<100;i++){
             ctx.writeAndFlush(Unpooled.copiedBuffer(req,
                     CharsetUtil.UTF_8));
