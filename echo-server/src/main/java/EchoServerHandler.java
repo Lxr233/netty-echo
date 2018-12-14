@@ -13,7 +13,6 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //UserInfo userInfo = (UserInfo)msg;
         System.out.println("Server receive the msgpack message , Name is:"+msg);
         ctx.write(msg);
     }
