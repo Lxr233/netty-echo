@@ -2,28 +2,31 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
+import pojo.UserInfo;
 
 
-public class EchoClientHandler extends SimpleChannelInboundHandler<String> {
+public class EchoClientHandler extends SimpleChannelInboundHandler {
 
-    private int counter = 0;
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        String req = "QUERY TIME ORDER"+"$_";
-        for(int i=0;i<100;i++){
-            ctx.writeAndFlush(Unpooled.copiedBuffer(req,
-                    CharsetUtil.UTF_8));
+        for(int i=0;i<3;i++){
+            UserInfo userInfo = new UserInfo();
+            userInfo.setAge(i);
+            userInfo.setName("Name-->"+i);
+            ctx.write(userInfo);
         }
-
+        ctx.flush();
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String in) throws Exception {
-        System.out.println("Now is: " +
-                in +
-                "; the counter is: " + ++counter);
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+//        UserInfo userInfo = (UserInfo)msg;
+        System.out.println("Client receive the msgpack message , Name is:"+msg);
+
     }
 
     @Override

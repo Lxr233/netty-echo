@@ -22,6 +22,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <netty.version>4.1.10.Final</netty.version>
+        <msgpack.version>0.6.12</msgpack.version>
         <echo-server.port>9999</echo-server.port>
         <echo-server.hostname>localhost</echo-server.hostname>
     </properties>
@@ -50,6 +51,11 @@
             <artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
             <version>${netty.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>msgpack</artifactId>
+            <version>${msgpack.version}</version>
         </dependency>
     </dependencies>
 

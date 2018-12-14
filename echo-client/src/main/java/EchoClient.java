@@ -7,6 +7,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.codec.msgpack.MsgpackDecoder;
+import io.netty.codec.msgpack.MsgpackEncoder;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
@@ -33,9 +35,10 @@ public class EchoClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel socketChannel )throws Exception{
-                            ByteBuf delimiter = Unpooled.copiedBuffer("$_".getBytes());
-                            socketChannel.pipeline().addLast(new DelimiterBasedFrameDecoder(1024,delimiter));
-                            socketChannel.pipeline().addLast(new StringDecoder());
+                            //ByteBuf delimiter = Unpooled.copiedBuffer("$_".getBytes());
+                            //socketChannel.pipeline().addLast(new DelimiterBasedFrameDecoder(1024,delimiter));
+                            socketChannel.pipeline().addLast("msgpack decoder",new MsgpackDecoder());
+                            socketChannel.pipeline().addLast("msgpack encoder",new MsgpackEncoder());
                             socketChannel.pipeline().addLast(new EchoClientHandler());
 
                         }

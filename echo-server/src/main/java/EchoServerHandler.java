@@ -1,31 +1,21 @@
 
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
-
-import java.util.Date;
+import pojo.UserInfo;
 
 @ChannelHandler.Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
-    private int counter=0;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String body = (String)msg;
-        counter++;
-        System.out.println("Server received:" + body + "; the counter is :"+ counter);
-        String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body)?
-                new Date(System.currentTimeMillis()).toString()
-                :"BAD ORDER";
-        currentTime = currentTime + "$_";
-        ByteBuf rsp = Unpooled.copiedBuffer(currentTime.getBytes());
-        ctx.write(rsp);
+        //UserInfo userInfo = (UserInfo)msg;
+        System.out.println("Server receive the msgpack message , Name is:"+msg);
+        ctx.write(msg);
     }
 
     @Override
