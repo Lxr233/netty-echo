@@ -1,0 +1,3 @@
+# netty的demo
+基于netty权威指南第七章写的demo
+使用了msgpack的编解码，以及对于tcp分包粘包的处理
